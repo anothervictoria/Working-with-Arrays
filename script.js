@@ -134,51 +134,51 @@ console.log(arr.at(-1));
 
 /////////
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// for (const movement of movements) {
-for (const [i, movement] of movements.entries()) {
-  if (movement > 0) {
-    console.log(`Movement ${i + 1} You deposited ${movement}`);
-  } else {
-    console.log(`You withdrew ${Math.abs(movement)}`);
-  }
-}
+// // for (const movement of movements) {
+// for (const [i, movement] of movements.entries()) {
+//   if (movement > 0) {
+//     console.log(`Movement ${i + 1} You deposited ${movement}`);
+//   } else {
+//     console.log(`You withdrew ${Math.abs(movement)}`);
+//   }
+// }
 
-console.log(`------FOREACH----------`);
+// console.log(`------FOREACH----------`);
 
-movements.forEach(function (mov, i, arr) {
-  if (mov > 0) {
-    console.log(`Movement ${i + 1}: You deposited ${mov}`);
-  } else {
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
-  }
-});
+// movements.forEach(function (mov, i, arr) {
+//   if (mov > 0) {
+//     console.log(`Movement ${i + 1}: You deposited ${mov}`);
+//   } else {
+//     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
+//   }
+// });
 
-//0: function(200)
-//1: function(450)
-//2: function(400)
-// ...
+// //0: function(200)
+// //1: function(450)
+// //2: function(400)
+// // ...
 
-//----------------------------------------------------
+// //----------------------------------------------------
 
-// Map
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// // Map
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-currencies.forEach(function (value, key, map) {
-  console.log(`${key}: ${value}`);
-});
+// currencies.forEach(function (value, key, map) {
+//   console.log(`${key}: ${value}`);
+// });
 
-// Set
-const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
-console.log(currenciesUnique);
-currenciesUnique.forEach(function (value, _, map) {
-  console.log(`${value}: ${value}`);
-});
+// // Set
+// const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+// console.log(currenciesUnique);
+// currenciesUnique.forEach(function (value, _, map) {
+//   console.log(`${value}: ${value}`);
+// });
 // Set doesn't have key and index
 
 // Coding Challenge #1
@@ -201,18 +201,51 @@ TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
-const dogsJulia = [3, 5, 2, 12, 7];
-const dogsKate = [4, 1, 15, 8, 3];
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
 
-const checkDogs = function (dogsJulia, dogsKate) {
-  const juliaCorrected = [...dogsJulia.slice(1, -2)];
-  const dogs = juliaCorrected.concat(dogsKate);
-  dogs.forEach(function (age, i) {
-    const dogType = age >= 3 ? `adult` : 'puppy';
-    console.log(
-      `Dog number ${i + 1} is an ${dogType}, and it is ${age} years old`
-    );
-  });
-};
+// const checkDogs = function (dogsJulia, dogsKate) {
+//   const juliaCorrected = [...dogsJulia.slice(1, -2)];
+//   const dogs = juliaCorrected.concat(dogsKate);
+//   dogs.forEach(function (age, i) {
+//     const dogType = age >= 3 ? `adult` : 'puppy';
+//     console.log(
+//       `Dog number ${i + 1} is an ${dogType}, and it is ${age} years old`
+//     );
+//   });
+// };
 
-checkDogs(dogsJulia, dogsKate);
+// checkDogs(dogsJulia, dogsKate);
+
+const euroToUsd = 1.1;
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const movementsUSD = movements.map(function (mov) {
+//   return mov * euroToUsd;
+//   // return 23;
+// });
+
+const movementsUSD = movements.map(mov => mov * euroToUsd);
+
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUSDfor = [];
+for (const mov of movements) {
+  movementsUSDfor.push(mov * euroToUsd);
+}
+console.log(movementsUSDfor);
+
+const movementsDescriptions = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrerew'} ${Math.abs(
+      mov
+    )}`
+  // if (mov > 0) {
+  //   return `Movement ${i + 1}: You deposited ${mov}`;
+  // } else {
+  //   return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
+  // }
+);
+
+console.log(movementsDescriptions);
