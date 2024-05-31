@@ -75,7 +75,21 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
-console.log(containerMovements.innerHTML);
+// console.log(containerMovements.innerHTML);
+
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLocaleLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+
+// const user = 'Steven Thomas Williams'; //stw
+createUsernames(accounts);
+console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -123,14 +137,14 @@ console.log(containerMovements.innerHTML);
 // console.log(letters.join(' - '));
 
 //////////////---------------------------------------------------------
-const arr = [23, 11, 64];
-console.log(arr[0]);
-console.log(arr.at(0));
+// const arr = [23, 11, 64];
+// console.log(arr[0]);
+// console.log(arr.at(0));
 
-//getting the last element
-console.log(arr[arr.length - 1]);
-console.log(arr.slice(-1)[0]);
-console.log(arr.at(-1));
+// //getting the last element
+// console.log(arr[arr.length - 1]);
+// console.log(arr.slice(-1)[0]);
+// console.log(arr.at(-1));
 
 /////////
 
@@ -217,35 +231,64 @@ GOOD LUCK 😀
 
 // checkDogs(dogsJulia, dogsKate);
 
-const euroToUsd = 1.1;
+// const euroToUsd = 1.1;
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// // const movementsUSD = movements.map(function (mov) {
+// //   return mov * euroToUsd;
+// //   // return 23;
+// // });
+
+// const movementsUSD = movements.map(mov => mov * euroToUsd);
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsUSDfor = [];
+// for (const mov of movements) {
+//   movementsUSDfor.push(mov * euroToUsd);
+// }
+// console.log(movementsUSDfor);
+
+// const movementsDescriptions = movements.map(
+//   (mov, i) =>
+//     `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrerew'} ${Math.abs(
+//       mov
+//     )}`
+//   // if (mov > 0) {
+//   //   return `Movement ${i + 1}: You deposited ${mov}`;
+//   // } else {
+//   //   return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
+//   // }
+// );
+
+// console.log(movementsDescriptions);
+
+///////////////////////////////////////////////////////////////////////
+
+// function transformToObjects(numberArray) {
+//   // Todo: Add your logic
+//   // should return an array of objects
+//   return numberArray.map(item => ({
+//     val: item,
+//   }));
+// }
+// console.log(transformToObjects([1, 2, 3]));
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
-// const movementsUSD = movements.map(function (mov) {
-//   return mov * euroToUsd;
-//   // return 23;
-// });
-
-const movementsUSD = movements.map(mov => mov * euroToUsd);
-
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
 console.log(movements);
-console.log(movementsUSD);
+console.log(deposits);
 
-const movementsUSDfor = [];
-for (const mov of movements) {
-  movementsUSDfor.push(mov * euroToUsd);
-}
-console.log(movementsUSDfor);
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
 
-const movementsDescriptions = movements.map(
-  (mov, i) =>
-    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrerew'} ${Math.abs(
-      mov
-    )}`
-  // if (mov > 0) {
-  //   return `Movement ${i + 1}: You deposited ${mov}`;
-  // } else {
-  //   return `Movement ${i + 1}: You withdrew ${Math.abs(mov)}`;
-  // }
-);
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
 
-console.log(movementsDescriptions);
+const withdrawalFor = [];
+for (const mov of movements) if (mov < 0) withdrawalFor.push(mov);
+console.log(withdrawalFor);
