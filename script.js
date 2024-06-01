@@ -68,23 +68,24 @@ const displayMovements = function (movements) {
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i} ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov}€</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 // console.log(containerMovements.innerHTML);
 
-const calcDisplayBalnce = function (movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance}€`;
-};
-calcDisplayBalnce(account1.movements);
+const calcDisplayBalnce = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+  labelBalance.textContent = `${acc.balance}€`;
+};
+// calcDisplayBalnce(account1.movements);
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
@@ -96,15 +97,15 @@ const calcDisplaySummary = function (movements) {
 
   const interest = movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter((int, i, arr) => {
-      console.log(arr);
+      // console.log(arr);
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
 };
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
@@ -119,6 +120,63 @@ const createUsernames = function (accs) {
 // const user = 'Steven Thomas Williams'; //stw
 createUsernames(accounts);
 console.log(accounts);
+
+const updateUI = function (acc) {
+  // Display Movements
+  displayMovements(currentAccount.movements);
+  //Display Balance
+  calcDisplayBalnce(currentAccount);
+  //Display Summary
+  calcDisplaySummary(currentAccount);
+};
+
+// Event Handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  //Prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username == inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 1;
+
+    //Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    //Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    updateUI(currentAccount);
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -370,25 +428,25 @@ TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
 GOOD LUCK 😀
 */
 
-const calcAverageHumanAge = function (ages) {
-  const humanAges = ages
-    .map(dogAge => {
-      if (dogAge <= 2) {
-        return dogAge * 2;
-      } else if (dogAge > 2) {
-        return 16 + dogAge * 4;
-      }
-    })
-    .filter(dogAge => dogAge >= 18);
-  // return humanAges;
-  const totalHumanAge = humanAges.reduce((acc, dogAge) => acc + dogAge, 0);
-  // return totalHumanAge;
-  const averageHumanAge = totalHumanAge / humanAges.length;
-  return averageHumanAge;
-};
+// const calcAverageHumanAge = function (ages) {
+//   const humanAges = ages
+//     .map(dogAge => {
+//       if (dogAge <= 2) {
+//         return dogAge * 2;
+//       } else if (dogAge > 2) {
+//         return 16 + dogAge * 4;
+//       }
+//     })
+//     .filter(dogAge => dogAge >= 18);
+//   // return humanAges;
+//   const totalHumanAge = humanAges.reduce((acc, dogAge) => acc + dogAge, 0);
+//   // return totalHumanAge;
+//   const averageHumanAge = totalHumanAge / humanAges.length;
+//   return averageHumanAge;
+// };
 
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
 // PIPELINE
 const eurToUsd = 1.1;
@@ -397,3 +455,41 @@ const totalDepositUSD = movements
   .map(mov => mov * eurToUsd)
   .reduce((acc, mov) => acc + mov, 0);
 console.log(totalDepositUSD);
+
+///////////////////////////////////////
+// Coding Challenge #3
+
+/* 
+Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
+
+*/
+
+const calcAverageHumanAge = ages =>
+  ages
+    .map(dogAge => (dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4))
+
+    .filter(dogAge => dogAge >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawal);
+
+// filter method returns a new array
+// find method returns the first element of the array
+
+console.log(accounts);
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+let accountFor;
+for (const acc of accounts) {
+  if (acc.owner === 'Jessica Davis') {
+    accountFor = account;
+    break;
+  }
+}
+console.log(accountFor);
