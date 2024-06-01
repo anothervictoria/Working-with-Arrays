@@ -140,7 +140,7 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username == inputLoginUsername.value
   );
-  console.log(currentAccount);
+  // console.log(currentAccount);
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and welcome message
     labelWelcome.textContent = `Welcome back, ${
@@ -176,6 +176,27 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAcc.movements.push(amount);
     updateUI(currentAccount);
   }
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    currentAccount.username === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
 });
 
 /////////////////////////////////////////////////
