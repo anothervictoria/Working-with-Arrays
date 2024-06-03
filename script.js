@@ -398,22 +398,22 @@ GOOD LUCK 😀
 // console.log(transformToObjects([1, 2, 3]));
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const deposits = movements.filter(function (mov) {
-  return mov > 0;
-});
-console.log(movements);
-console.log(deposits);
+// const deposits = movements.filter(function (mov) {
+//   return mov > 0;
+// });
+// console.log(movements);
+// console.log(deposits);
 
-const depositsFor = [];
-for (const mov of movements) if (mov > 0) depositsFor.push(mov);
-console.log(depositsFor);
+// const depositsFor = [];
+// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+// console.log(depositsFor);
 
-const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals);
+// const withdrawals = movements.filter(mov => mov < 0);
+// console.log(withdrawals);
 
-const withdrawalFor = [];
-for (const mov of movements) if (mov < 0) withdrawalFor.push(mov);
-console.log(withdrawalFor);
+// const withdrawalFor = [];
+// for (const mov of movements) if (mov < 0) withdrawalFor.push(mov);
+// console.log(withdrawalFor);
 
 // REDUCE
 // accumulator -> snowball
@@ -422,28 +422,28 @@ console.log(withdrawalFor);
 //   return acc + curr;
 // }, 0);
 
-const balance = movements.reduce((acc, curr) => acc + curr, 0);
-console.log(balance);
+// const balance = movements.reduce((acc, curr) => acc + curr, 0);
+// console.log(balance);
 
-let balanceFor = 0;
-for (const mov of movements) balanceFor += mov;
-console.log(balanceFor);
+// let balanceFor = 0;
+// for (const mov of movements) balanceFor += mov;
+// console.log(balanceFor);
 
-// Maximum value
-// my solution
-const maximumValue = movements.reduce((acc, curr) => {
-  if (curr > acc) {
-    acc = curr;
-  }
-  return acc;
-});
-console.log(maximumValue);
-// Jonas solution
-const max = movements.reduce((acc, mov) => {
-  if (acc > mov) return acc;
-  else return mov;
-}, movements[0]);
-console.log(max);
+// // Maximum value
+// // my solution
+// const maximumValue = movements.reduce((acc, curr) => {
+//   if (curr > acc) {
+//     acc = curr;
+//   }
+//   return acc;
+// });
+// console.log(maximumValue);
+// // Jonas solution
+// const max = movements.reduce((acc, mov) => {
+//   if (acc > mov) return acc;
+//   else return mov;
+// }, movements[0]);
+// console.log(max);
 
 // Coding Challenge #2
 
@@ -483,67 +483,97 @@ GOOD LUCK 😀
 // console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 // console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
-// PIPELINE
-const eurToUsd = 1.1;
-const totalDepositUSD = movements
-  .filter(mov => mov > 0)
-  .map(mov => mov * eurToUsd)
+// // PIPELINE
+// const eurToUsd = 1.1;
+// const totalDepositUSD = movements
+//   .filter(mov => mov > 0)
+//   .map(mov => mov * eurToUsd)
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totalDepositUSD);
+
+// ///////////////////////////////////////
+// // Coding Challenge #3
+
+// /*
+// Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
+
+// */
+
+// const calcAverageHumanAge = ages =>
+//   ages
+//     .map(dogAge => (dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4))
+
+//     .filter(dogAge => dogAge >= 18)
+//     .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+
+// console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+// console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+
+// const firstWithdrawal = movements.find(mov => mov < 0);
+// console.log(movements);
+// console.log(firstWithdrawal);
+
+// // filter method returns a new array
+// // find method returns the first element of the array
+
+// console.log(accounts);
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+// console.log(account);
+
+// let accountFor;
+// for (const acc of accounts) {
+//   if (acc.owner === 'Jessica Davis') {
+//     accountFor = account;
+//     break;
+//   }
+// }
+// console.log(accountFor);
+
+// //Equality
+// console.log(movements);
+// console.log(movements.includes(-130));
+
+// //Condition
+// console.log(movements.some(mov => mov === 130));
+// const anyDeposits = movements.some(mov => mov > 0);
+// console.log(anyDeposits);
+
+// // EVERY
+// console.log(movements.every(mov => mov > 0));
+// console.log(account4.movements.every(mov => mov > 0));
+
+// // Separate callback
+// const deposit = mov => mov > 0;
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+// Flat method goes one level deep
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+// In parameters 1 level is default, we can write parameter of levels
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat(2));
+
+// console.log(accounts);
+// const accountMovements = accounts.map(acc => acc.movements);
+// console.log(accountMovements);
+// const allMovements = accountMovements.flat();
+// console.log(allMovements);
+// const overalBalance = allMovements.reduce((acc, mov) => acc + mov, 0);
+// console.log(overalBalance);
+
+// flat
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
   .reduce((acc, mov) => acc + mov, 0);
-console.log(totalDepositUSD);
+console.log(overalBalance);
 
-///////////////////////////////////////
-// Coding Challenge #3
-
-/* 
-Rewrite the 'calcAverageHumanAge' function from the previous challenge, but this time as an arrow function, and using chaining!
-
-*/
-
-const calcAverageHumanAge = ages =>
-  ages
-    .map(dogAge => (dogAge <= 2 ? dogAge * 2 : 16 + dogAge * 4))
-
-    .filter(dogAge => dogAge >= 18)
-    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
-
-console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
-console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
-
-const firstWithdrawal = movements.find(mov => mov < 0);
-console.log(movements);
-console.log(firstWithdrawal);
-
-// filter method returns a new array
-// find method returns the first element of the array
-
-console.log(accounts);
-const account = accounts.find(acc => acc.owner === 'Jessica Davis');
-console.log(account);
-
-let accountFor;
-for (const acc of accounts) {
-  if (acc.owner === 'Jessica Davis') {
-    accountFor = account;
-    break;
-  }
-}
-console.log(accountFor);
-
-//Equality
-console.log(movements);
-console.log(movements.includes(-130));
-
-//Condition
-console.log(movements.some(mov => mov === 130));
-const anyDeposits = movements.some(mov => mov > 0);
-console.log(anyDeposits);
-
-// EVERY
-console.log(movements.every(mov => mov > 0));
-console.log(account4.movements.every(mov => mov > 0));
-
-// Separate callback
-const deposit = mov => mov > 0;
-console.log(movements.some(deposit));
-console.log(movements.every(deposit));
-console.log(movements.filter(deposit));
+// flatMap
+// goes always only 1 level deep
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
